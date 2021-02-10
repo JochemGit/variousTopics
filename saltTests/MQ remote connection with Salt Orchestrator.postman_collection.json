@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "9b85d8df-4cd0-45ec-b427-a87c0fbd4ed4",
+		"name": "MQ remote connection with Salt Orchestrator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ucCreateRemoteConnection",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var authServiceUrl = pm.environment.get('authService');",
+							"var gatewayBaseUrl = pm.environment.get('gatewayBaseUrl');",
+							"var username = pm.environment.get('username');",
+							"var password = pm.environment.get('password');",
+							"",
+							"var sdk = require('postman-collection');",
+							"",
+							"var isValidTokenRequest = new sdk.Request({",
+							"    url: gatewayBaseUrl, // Use an endpoint that requires being authenticated",
+							"    method: 'POST',",
+							"    header: [",
+							"        new sdk.Header({",
+							"            key: 'content-type',",
+							"            value: 'application/json',",
+							"        }),",
+							"        new sdk.Header({",
+							"            key: 'acccept',",
+							"            value: 'application/json',",
+							"        }),",
+							"        new sdk.Header({",
+							"            key: 'Authorization',",
+							"            value: 'Bearer ' + pm.globals.get(\"jwttoken\"),",
+							"        }),",
+							"    ],",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify([])",
+							"    } ",
+							"});",
+							"",
+							"console.log(`Send test request to ${isValidTokenRequest.url} with token ${pm.globals.get(\"jwttoken\")}`);",
+							"",
+							"pm.sendRequest(isValidTokenRequest, function (err, response) {",
+							"    if (response.code === 401) {",
+							"        console.log(`Call refresh token`);",
+							"        refreshToken();",
+							"    }",
+							"});",
+							"",
+							"function refreshToken() {",
+							"    var tokenRequest = new sdk.Request({",
+							"        url: authServiceUrl,",
+							"        method: 'POST',",
+							"        header: [",
+							"            new sdk.Header({",
+							"                key: 'content-type',",
+							"                value: 'application/json'",
+							"            }),",
+							"            new sdk.Header({",
+							"                key: 'acccept',",
+							"                value: 'application/json'",
+							"            }),",
+							"        ],",
+							"        body: {",
+							"            mode: 'raw',",
+							"            raw: JSON.stringify({",
+							"                username: username,",
+							"                password: password,",
+							"                eauth: 'pam'",
+							"            })",
+							"        } ",
+							"    });",
+							"",
+							"    console.log(`Send test request: ${tokenRequest.url}`);",
+							"",
+							"    pm.sendRequest(tokenRequest, function (err, response) {",
+							"        console.log(`response code: ${response.code}`);",
+							"        if (err) {",
+							"            throw err;",
+							"        }",
+							"",
+							"        if (response.code !== 200) {",
+							"            throw new Error('Could not log in.');",
+							"        }",
+							"",
+							"        pm.globals.set(\"jwttoken\", response.json().return[0].token);",
+							"        console.log(`New token has been set: ${response.json().return[0].token}`);",
+							"    });",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('Response of \"salt-run state.orchestrate orch.mqCreateRemoteConnection\"');",
+							"console.log(pm.response.json());",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check retcode\", function () {",
+							"    console.log(pm.response.json().return[0].retcode);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.return[0].retcode).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwttoken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"client\": \"runner\",\n        \"fun\": \"state.orchestrate\",\n        \"mods\": \"orch.mqCreateRemoteConnection\",\n        \"pillar\": {\"parameters\": {\"snApplSid\": \"Test Appl SID\",\"snOrderId\": \"SN-{{$guid}}\",\"minionServerA\": \"salt-minion2\",\"minionServerB\": \"salt-minion3\",\"qmgrNameA\": \"QM2\",\"qmgrNameB\": \"QM3\"}}\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gatewayBaseUrl}}",
+					"host": [
+						"{{gatewayBaseUrl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

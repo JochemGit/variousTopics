@@ -1,0 +1,14 @@
+{
+	"id": "146e52f0-fd32-4814-8e58-8a3c0f4d5eb7",
+	"values": [
+		{
+			"key": "jwttoken",
+			"value": "4f202bcf6a6b25b793ee2c95dcf8fc419283700e",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2021-01-21T15:33:35.555Z",
+	"_postman_exported_using": "Postman/7.36.1"
+}
