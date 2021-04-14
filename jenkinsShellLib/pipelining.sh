@@ -6,6 +6,6 @@ providePipelineVar() {
 
 restorePipelineVars() {
   if [ ! -z ${JENKINS_HOME+x} ]; then
-    cat ./buffer
+    eval $(cat ./buffer)
   fi
 }
