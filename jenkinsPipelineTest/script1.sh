@@ -1,5 +1,6 @@
 #!/bin/bash
 
+pwd
 . ../jenkinsShellLib/pipelining.sh
 
 scriptname=$(basename $0)
