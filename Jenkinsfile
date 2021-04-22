@@ -1,7 +1,7 @@
 def stepsToRun = [:]
 
 pipeline {
-    agent none
+    agent any
 
     stages {
         stage ("Create VMs"){
