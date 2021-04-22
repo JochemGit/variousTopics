@@ -4,22 +4,22 @@ pipeline {
     agent none
 
     stages {
-        stage (&quot;Create VMs&quot;){
+        stage ("Create VMs"){
             steps {
                 script {
-                    for (int i = 1; i &lt; 3; i++) {
-                        stepsToRun[&quot;VM${i}&quot;] = prepareVM(&quot;VM${i}&quot;)
+                    for (int i = 1; i < 3; i++) {
+                        stepsToRun["VM${i}"] = prepareVM("VM${i}")
                     }
                     parallel stepsToRun
                 }
             }
         }
-        stage (&quot;Test cases&quot;){
+        stage ("Test cases"){
             steps {
                 script {
                     stepsToRun = [:]
-                    for (int i = 1; i &lt; 5; i++) {
-                        stepsToRun[&quot;Step${i}&quot;] = prepareStage(&quot;Step${i}&quot;)
+                    for (int i = 1; i < 5; i++) {
+                        stepsToRun["Step${i}"] = prepareStage("Step${i}")
                     }   
                     parallel stepsToRun
                 }
@@ -31,19 +31,19 @@ pipeline {
 def prepareVM(def name) {
     return {
         stage (name) {
-            stage(&quot;Create VM&quot;) {
-                echo &quot;start 1&quot;
+            stage("Create VM") {
+                echo "start 1"
                 sleep 3
-                if (name == &quot;VM2&quot;) {
+                if (name == "VM2") {
                     sleep 2
-                    // sh &apos;exit -1&apos;
+                    // sh 'exit -1'
                 }
-                echo &quot;done 1&quot;
+                echo "done 1"
             }
-            stage(&quot;Get QM&quot;) {
-                echo &quot;start 2&quot;
+            stage("Get QM") {
+                echo "start 2"
                 sleep 5
-                echo &quot;done 2&quot;
+                echo "done 2"
             }
         }
     }
@@ -52,19 +52,19 @@ def prepareVM(def name) {
 def prepareStage(def name) {
     return {
         stage (name) {
-            stage(&quot;1&quot;) {
-                echo &quot;start 1&quot;
+            stage("1") {
+                echo "start 1"
                 sleep 3
-                if (name == &quot;Step2&quot;) {
+                if (name == "Step2") {
                     sleep 2
-                    //sh &apos;exit -1&apos;
+                    //sh 'exit -1'
                 }
-                echo &quot;done 1&quot;
+                echo "done 1"
             }
-            stage(&quot;2&quot;) {
-                echo &quot;start 2&quot;
+            stage("2") {
+                echo "start 2"
                 sleep 5
-                echo &quot;done 2&quot;
+                echo "done 2"
             }
         }
     }
