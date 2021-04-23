@@ -35,9 +35,9 @@ def prepareVM(def name) {
                 echo "start 1"
                 //sleep 3
                 if (name == "VM2") {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8001'
+                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ 'hostname': 'server2' }"'
                 } else {
-                    sh '$WORKSPACE/tools/execWithCallback.py'
+                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ 'hostname': 'server1' }"'
                 }
                 echo "done 1"
             }
