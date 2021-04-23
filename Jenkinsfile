@@ -33,10 +33,11 @@ def prepareVM(def name) {
         stage (name) {
             stage("Create VM") {
                 echo "start 1"
-                sleep 3
+                //sleep 3
                 if (name == "VM2") {
-                    sleep 2
-                    // sh 'exit -1'
+                    sh '$WORKSPACE/tools/execWithCallback.py 8001'
+                } else {
+                    sh '$WORKSPACE/tools/execWithCallback.py'
                 }
                 echo "done 1"
             }
