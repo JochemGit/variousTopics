@@ -1,4 +1,5 @@
 def stepsToRun = [:]
+def testenv = [:]
 
 pipeline {
     agent any
@@ -35,20 +36,36 @@ def prepareVM(def name) {
                 echo name + " - Create VM - Start"
                 //sleep 3
                 if (name == "VM2") {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"'
+                    ret = sh (
+                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"'
+                        returnStdout:  true
+                    ).trim()
                 } else {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"'
+                    ret = sh (
+                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"'
+                        returnStdout:  true
+                    ).trim()
                 }
+                def pjson = new groovy.json.JsonSlurper().parse(ret)
+                echo pjson
+                // assert testenv["minion_${name}"] = 
                 echo name + " - Create VM - Done"
             }
             stage("Get QM") {
                 echo name + " - Get QM - Start"
                 //sleep 3
                 if (name == "VM2") {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"'
+                    ret = sh (
+                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"'
+                        returnStdout:  true
+                    ).trim()
                 } else {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"'
+                    ret = sh (
+                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"'
+                        returnStdout:  true
+                    ).trim()
                 }
+                // assert testenv["qm_${name}"] = 
                 echo name + " - Get QM - Done"
             }
         }
