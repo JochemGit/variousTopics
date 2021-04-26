@@ -77,7 +77,10 @@ def prepareStage(def name) {
         stage (name) {
             stage("1") {
                 echo "start 1"
-                echo testenv.inspect()
+                echo "Variables in test environment!"
+                for (element in testenv) {
+                    echo "${element.key} ${element.value}"
+                }
                 sleep 3
                 if (name == "Step2") {
                     sleep 2
