@@ -40,13 +40,16 @@ def prepareVM(def name) {
                         script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"',
                         returnStdout:  true
                     ).trim()
+                    echo "ret1: " + ret
+                    ret = '{ "hostname": "server2.dummy.net" }'
                 } else {
                     ret = sh (
                         script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"',
                         returnStdout:  true
                     ).trim()
+                    echo "ret1: " + ret
+                    ret = '{ "hostname": "server1.dummy.net" }'
                 }
-                ret = '{ "hostname": "server1.dummy.net" }'
                 echo "ret: " + ret
                 def pjson = new groovy.json.JsonSlurper().parseText(ret)
                 echo "pjson: " + pjson
