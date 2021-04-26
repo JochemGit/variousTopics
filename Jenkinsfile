@@ -81,7 +81,7 @@ def prepareStage(def name) {
                     sleep 3
                 }
                 echo "Variables in test environment!"
-                envVars=""
+                def envVars=""
                 for (element in testenv) {
                     echo "${element.key}: ${element.value}"
                     envVars=envVars + "${element.key}=${element.value} "
