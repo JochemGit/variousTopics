@@ -82,7 +82,7 @@ def prepareStage(def name) {
                 }
                 echo "Variables in test environment!"
                 for (element in testenv) {
-                    echo "${element.key} ${element.value}"
+                    echo "${element.key}: ${element.value}"
                 }
                 echo "done 1"
             }
