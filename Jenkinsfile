@@ -37,7 +37,7 @@ def prepareVM(def name) {
                 //sleep 3
                 if (name == "VM2") {
                     ret = sh (
-                        script: "$WORKSPACE/tools/execWithCallback.py 8001 '{ "hostname": "server2.dummy.net" }'",
+                        script: "$WORKSPACE/tools/execWithCallback.py 8001 '{ \"hostname\": \"server2.dummy.net\" }'",
                         returnStdout:  true
                     ).trim()
                     echo "ret1: " + ret
