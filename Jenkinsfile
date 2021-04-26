@@ -37,18 +37,19 @@ def prepareVM(def name) {
                 //sleep 3
                 if (name == "VM2") {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"',
+                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ '"'hostname'"': '"'server2.dummy.net'"' }"',
                         returnStdout:  true
                     ).trim()
                 } else {
-                    echo "ret: " + ret
                     ret = sh (
                         script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"',
                         returnStdout:  true
                     ).trim()
                 }
+                ret = '{ "hostname": "server1.dummy.net" }'
+                echo "ret: " + ret
                 def pjson = new groovy.json.JsonSlurper().parseText(ret)
-                echo pjson
+                echo "pjson: " + pjson
                 // assert testenv["minion_${name}"] = 
                 echo name + " - Create VM - Done"
             }
