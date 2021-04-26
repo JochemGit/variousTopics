@@ -1,5 +1,5 @@
 def stepsToRun = [:]
-def testenv = [:]
+testenv = [:]
 
 pipeline {
     agent any
@@ -50,7 +50,6 @@ def prepareVM(def name) {
                 def pjson = new groovy.json.JsonSlurper().parseText(ret)
                 echo "pjson: " + pjson
                 echo pjson["hostname"]
-                // pjson instanceof Maps
                 testenv["minion${name}"] = pjson["hostname"]
                 echo name + " - Create VM - Done"
             }
