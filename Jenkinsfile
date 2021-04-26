@@ -54,7 +54,7 @@ def prepareVM(def name) {
                 def pjson = new groovy.json.JsonSlurper().parseText(ret)
                 echo "pjson: " + pjson
                 // pjson instanceof Maps
-                assert testenv["minion_${name}"] = pjson["hostname"]
+                testenv["minion_${name}"] = pjson["hostname"]
                 echo name + " - Create VM - Done"
             }
             stage("Get QM") {
