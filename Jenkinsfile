@@ -37,12 +37,12 @@ def prepareVM(def name) {
                 //sleep 3
                 if (name == "VM2") {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"'
+                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"',
                         returnStdout:  true
                     ).trim()
                 } else {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"'
+                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"',
                         returnStdout:  true
                     ).trim()
                 }
@@ -56,12 +56,12 @@ def prepareVM(def name) {
                 //sleep 3
                 if (name == "VM2") {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"'
+                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"',
                         returnStdout:  true
                     ).trim()
                 } else {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"'
+                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"',
                         returnStdout:  true
                     ).trim()
                 }
