@@ -34,7 +34,6 @@ def prepareVM(def name) {
         stage (name) {
             stage("Create VM") {
                 echo name + " - Create VM - Start"
-                //sleep 3
                 if (name == "VM2") {
                     ret = sh (
                         script: "$WORKSPACE/tools/execWithCallback.py 8001 '{ \"hostname\": \"server2.dummy.net\" }'",
@@ -46,28 +45,27 @@ def prepareVM(def name) {
                         returnStdout:  true
                     ).trim()
                 }
-                echo "ret: " + ret
+                echo "Server received: " + ret
                 def pjson = new groovy.json.JsonSlurper().parseText(ret)
-                echo "pjson: " + pjson
-                echo pjson["hostname"]
                 testenv["minion${name}"] = pjson["hostname"]
                 echo name + " - Create VM - Done"
             }
             stage("Get QM") {
                 echo name + " - Get QM - Start"
-                //sleep 3
                 if (name == "VM2") {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"',
+                        script: "$WORKSPACE/tools/execWithCallback.py 8001 '{ \"qmname\": \"QM2\" }'",
                         returnStdout:  true
                     ).trim()
                 } else {
                     ret = sh (
-                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"',
+                        script: '$WORKSPACE/tools/execWithCallback.py 8000 "{ \\\"qmname\\\": \\\"QM1\\\" }"',
                         returnStdout:  true
                     ).trim()
                 }
-                // assert testenv["qm_${name}"] = 
+                echo "Server received: " + ret
+                def pjson = new groovy.json.JsonSlurper().parseText(ret)
+                testenv["qm${name}"] = pjson["qmname"]
                 echo name + " - Get QM - Done"
             }
         }
@@ -79,7 +77,7 @@ def prepareStage(def name) {
         stage (name) {
             stage("1") {
                 echo "start 1"
-                echo testenv
+                echo testenv.inspect()
                 sleep 3
                 if (name == "Step2") {
                     sleep 2
