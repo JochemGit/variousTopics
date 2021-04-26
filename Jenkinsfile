@@ -84,7 +84,7 @@ def prepareStage(def name) {
                 for (element in testenv) {
                     echo "${element.key}: ${element.value}"
                 }
-                sh "printenv|sort"
+                sh "TEST1=TEST1 printenv|sort"
                 echo "done 1"
             }
             stage("2") {
