@@ -32,19 +32,24 @@ def prepareVM(def name) {
     return {
         stage (name) {
             stage("Create VM") {
-                echo "start 1"
+                echo name + " - Create VM - Start"
                 //sleep 3
                 if (name == "VM2") {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2\' }"'
+                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'hostname\': \'server2.dummy.net\' }"'
                 } else {
-                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1\' }"'
+                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'hostname\': \'server1.dummy.net\' }"'
                 }
-                echo "done 1"
+                echo name + " - Create VM - Done"
             }
             stage("Get QM") {
-                echo "start 2"
-                sleep 5
-                echo "done 2"
+                echo name + " - Get QM - Start"
+                //sleep 3
+                if (name == "VM2") {
+                    sh '$WORKSPACE/tools/execWithCallback.py 8001 "{ \'qmname\': \'QM2\' }"'
+                } else {
+                    sh '$WORKSPACE/tools/execWithCallback.py 8000 "{ \'qmname\': \'QM1\' }"'
+                }
+                echo name + " - Get QM - Done"
             }
         }
     }
