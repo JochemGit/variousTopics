@@ -46,7 +46,7 @@ def prepareVM(def name) {
                         returnStdout:  true
                     ).trim()
                 }
-                def pjson = new groovy.json.JsonSlurper().parse(ret)
+                def pjson = new groovy.json.JsonSlurper().parseText(ret)
                 echo pjson
                 // assert testenv["minion_${name}"] = 
                 echo name + " - Create VM - Done"
