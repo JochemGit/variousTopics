@@ -81,10 +81,12 @@ def prepareStage(def name) {
                     sleep 3
                 }
                 echo "Variables in test environment!"
+                envVars=""
                 for (element in testenv) {
                     echo "${element.key}: ${element.value}"
+                    envVars=envVars + "${element.key}=${element.value} "
                 }
-                sh "TEST1=TEST1 printenv|sort"
+                sh envVars + "printenv|sort"
                 echo "done 1"
             }
             stage("2") {
