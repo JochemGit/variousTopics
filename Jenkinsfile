@@ -108,7 +108,7 @@ def execCase(def name) {
     return {
         stage (name) {
             ret = sh (
-                script: "$name" }'",
+                script: "$name",
                 returnStdout:  true
             ).trim()
         }
