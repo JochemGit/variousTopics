@@ -111,6 +111,7 @@ def execCase(def name) {
                 script: "$name",
                 returnStdout:  true
             ).trim()
+            echo "Output: " + ret
         }
     }
 }
