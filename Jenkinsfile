@@ -21,10 +21,13 @@ pipeline {
                     stepsToRun = [:]
                     CASE_LIST = sh (script: "ls ${WORKSPACE}/usecases/CASE_*.sh", returnStdout: true).trim()
                     echo "CASE_LIST : ${CASE_LIST}"
-                    for (int i = 1; i < 5; i++) {
-                        stepsToRun["Testcase${i}"] = prepareStage("Testcase${i}")
-                    }   
-                    parallel stepsToRun
+//                    for (int i = 1; i < 5; i++) {
+//                        stepsToRun["Testcase${i}"] = prepareStage("Testcase${i}")
+//                    }   
+                    for (String ele : CASE_LIST.split("\\r?\\n")){ 
+                        println ">>>${ele}<<<"     
+                    }
+                    //parallel stepsToRun
                 }
             }
         }
