@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     stepsToRun = [:]
-                    CASE_LIST = sh (script: "ls '${WORKSPACE}/usecases/CASE*'", returnStdout: true).trim()
+                    CASE_LIST = sh (script: "ls ${WORKSPACE}/usecases/CASE_*.sh", returnStdout: true).trim()
                     echo "CASE_LIST : ${CASE_LIST}"
                     for (int i = 1; i < 5; i++) {
                         stepsToRun["Testcase${i}"] = prepareStage("Testcase${i}")
