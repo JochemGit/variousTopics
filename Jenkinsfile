@@ -107,8 +107,13 @@ def prepareStage(def name) {
 def execCase(def name) {
     return {
         stage (name) {
+            def envVars=""
+            for (element in testenv) {
+                echo "${element.key}: ${element.value}"
+                envVars=envVars + "${element.key}=${element.value} "
+            }
             ret = sh (
-                script: "$name",
+                script: "$envVars $name",
                 returnStdout:  true
             ).trim()
             echo "Output: " + ret
