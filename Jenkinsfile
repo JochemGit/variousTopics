@@ -28,7 +28,7 @@ pipeline {
                         println ">>>${ele}<<<"     
                         stepsToRun["${ele}"] = execCase("${ele}")
                     }
-                    //parallel stepsToRun
+                    parallel stepsToRun
                 }
             }
         }
