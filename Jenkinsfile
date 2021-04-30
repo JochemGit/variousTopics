@@ -26,6 +26,7 @@ pipeline {
 //                    }   
                     for (String ele : CASE_LIST.split("\\r?\\n")){ 
                         println ">>>${ele}<<<"     
+                        stepsToRun["${ele}"] = execCase("${ele}")
                     }
                     //parallel stepsToRun
                 }
@@ -99,6 +100,17 @@ def prepareStage(def name) {
                 sleep 1
                 echo "done 2"
             }
+        }
+    }
+}
+
+def execCase(def name) {
+    return {
+        stage (name) {
+            ret = sh (
+                script: "$name" }'",
+                returnStdout:  true
+            ).trim()
         }
     }
 }
