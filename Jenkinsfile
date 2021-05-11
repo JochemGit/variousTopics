@@ -2,7 +2,7 @@ def stepsToRun = [:]
 testenv = [:]
 
 pipeline {
-    agent any
+    agent minion1
 
     stages {
         stage ("Create VMs"){
