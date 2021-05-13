@@ -2,7 +2,7 @@ def stepsToRun = [:]
 testenv = [:]
 
 pipeline {
-    agent { label 'minion1' }
+    agent { label 'minion1 || kuserver' }
 
     stages {
         stage ("Create VMs"){
