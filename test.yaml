@@ -1,0 +1,6 @@
+initJobs:
+  - createVM.sh
+  - getQM.py
+
+finallyJobs:
+  - destroyVM.sh

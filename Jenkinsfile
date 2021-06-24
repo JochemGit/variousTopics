@@ -5,6 +5,14 @@ pipeline {
     agent { label 'minion1' }
 
     stages {
+        stage ("Read configuration file"){
+            steps {
+                script {
+                    def pyaml = new groovy.yaml.YamlSlurper().parseText(ret)
+                    echo pyaml["initJobs"]
+                }
+            }
+        }
         stage ("Create VMs"){
             steps {
                 script {
