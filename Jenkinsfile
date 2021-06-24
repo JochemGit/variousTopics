@@ -8,8 +8,8 @@ pipeline {
         stage ("Read configuration file"){
             steps {
                 script {
-                    def pyaml = new groovy.yaml.YamlSlurper().parseText(ret)
-                    echo pyaml["initJobs"]
+                    datas = readYaml (file: 'test.yaml')
+                    echo datas.initJobs.toString()
                 }
             }
         }
