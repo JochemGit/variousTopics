@@ -10,6 +10,10 @@ pipeline {
                 script {
                     datas = readYaml (file: 'test.yaml')
                     echo datas.initJobs.toString()
+
+                    File fl = new File('${WORKSPACE}/test.json')
+                    def pjson = new groovy.json.JsonSlurper().parse(fl)
+                    echo pjson["initJobs"].toString()
                 }
             }
         }
